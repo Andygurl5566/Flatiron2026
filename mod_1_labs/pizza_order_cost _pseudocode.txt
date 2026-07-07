@@ -1,0 +1,77 @@
+'''''
+Title: Pizza Order Cost Calculator
+
+Goal:
+    create a Python script that calculates the total cost of a pizza order based on factors such as:
+    - pizza size
+    - amount of toppings
+    - delivery distance
+
+
+PSUEDOCODE
+
+create variables
+    SMALL_PIZZA = 8
+    LARGE_PIZZA = 12
+    TOPPING_FEE = 1 
+    
+    delivery_fee = '' | $2 for first 5 miles, $1 every additional mile
+    additional_mile_fee = 1
+    five_mile_fee = 2
+
+functions:
+    gather_order_details (gather all the order details)
+    calculate_delivery_fee (calculates fee based on miles)
+    calculate_cost (calculates the cost and displays the results)
+
+
+calculate_delivery_fee [inputs: delivery_distance (int) , outputs: delivery_fee(int)] calculates fee based on miles
+    if delivery_distance is > 5
+        create remaining_mile variable
+        remaining_mile variable = delivery distance - 5
+        delivery_fee = (remaining_mile * additional_mile_fee) + (5 * five_mile_fee)
+        return delivery_fee
+        
+
+gather_order_details (gather all the order details)
+    Prompt the user for inputs:
+        Pizza size (small or large)
+            While...
+                try to verify input as a string | string and strip to lowercase
+                    if small
+                        pizza_charge = charge SMALL_PIZZA price
+                        exit loop
+                    if large
+                        pizza_charge = charge SMALL_PIZZA price
+                        exit loop
+                    if neither continue to prompt for valid input
+        Number of toppings
+            While...
+                try to verify for int input and ensure int is greater than 0 | int() , 0 < int
+                    if valid input
+                        topping_charge = multiply TOPPING_FEE * toppings
+                        exit loop
+                    if invalid
+                        prompt user for valid input                       
+        Delivery distance in miles
+            While...
+                try to verify for int input and ensure int is greater than 0 | int() , 0 < int
+                    if valid input
+                        plug input into calculate_delivery_fee() helper function
+                        capture as a new variable
+                        exit loop
+                    if invalid continue to prompt for valid input
+            Return pizza_charge, topping_charge, delivery_charge so they are accessible from outside functions
+
+calculate_cost [input: pizza_charge, topping_charge, delivery_charge, outputs: order_sum] (calculates the cost)
+    return pizza_charge + topping_charge + delivery_charge 
+
+
+show_results[input: order_sum, outputs: interpolated string] (shows the pizza cost as a string)
+
+            
+'''
+
+
+
+
