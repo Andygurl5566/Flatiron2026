@@ -70,15 +70,8 @@ def gather_order_details():
 # Calculate the order total | outputs: formatted string 
 def calculate_cost(pizza_charge, topping_charge, delivery_charge):
     order_sum = pizza_charge + topping_charge + delivery_charge
-    print() # blank print statement included just for aesthetics when this prints to the console
-    print(f'Summary')
-    print(f'Pizza size fee: + {pizza_charge}')
-    print(f'Topping fee: + {topping_charge}')
-    print(f'Delivery fee: + {delivery_charge}')
-    print('___________________________________')
     print(f'Thank you for your order! Your total is ${order_sum:.2f}')
     
-
 
 # Program begins here :           
 pizza_charge, topping_charge, delivery_charge = gather_order_details() 
