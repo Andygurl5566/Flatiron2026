@@ -37,11 +37,9 @@ def gather_order_details():
         pizza_size = pizza_size_input.lower().strip()
         if pizza_size == "small":
             pizza_charge = SMALL_PIZZA
-            print(pizza_charge)
             break
         elif pizza_size == "large":
             pizza_charge = LARGE_PIZZA
-            print(pizza_charge)
             break 
         else:
             print("Invalid Input: Please enter 'large' or 'small' : ")
@@ -51,7 +49,6 @@ def gather_order_details():
             number_of_toppings = int(number_of_toppings_input)
             if number_of_toppings > 0:
                 topping_charge = number_of_toppings * TOPPING_FEE
-                print(topping_charge)
                 break
             else:
                 print("Please input a number greater than 0 ")
@@ -63,13 +60,11 @@ def gather_order_details():
             distance_input = int(delivery_distance_input)
             if distance_input > 0:
                 delivery_fee = calculate_delivery_fee(distance_input)
-                print(delivery_fee)
                 break
             else:
                 print("Please enter a distance in miles as a whole number that is greater than 0.")
         except ValueError:
             print("Invalid Input : Please try again. ")
-    print(pizza_charge, topping_charge, delivery_fee)
     return pizza_charge, topping_charge, delivery_fee
 
 # Calculate the cost of toppings | outputs: formatted string 
