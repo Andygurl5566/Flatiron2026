@@ -20,7 +20,7 @@ TOPPING_FEE = 1
 five_mile_fee = 2
 additional_mile_fee = 1
 
-# Calculate the delivery fee based on miles inputed | outputs: delivery fee
+# Calculate the delivery fee based on miles inputted | outputs: delivery fee
 def calculate_delivery_fee(delivery_distance):
     if(delivery_distance > 5):
         remaining_mile = delivery_distance - 5
@@ -66,16 +66,22 @@ def gather_order_details():
                 print(delivery_fee)
                 break
             else:
-                print("Please enter a distance in miles as a whole number.")
+                print("Please enter a distance in miles as a whole number that is greater than 0.")
         except ValueError:
             print("Invalid Input : Please try again. ")
     print(pizza_charge, topping_charge, delivery_fee)
     return pizza_charge, topping_charge, delivery_fee
 
-# Calculate the cost of toppings | outputs: interpolated string 
+# Calculate the cost of toppings | outputs: formatted string 
 def calculate_cost(pizza_charge, topping_charge, delivery_charge):
     order_sum = pizza_charge + topping_charge + delivery_charge
+    print(f'Summary:')
+    print(f'Pizza size fee: + {pizza_charge}')
+    print(f'Topping fee: + {topping_charge}')
+    print(f'Delivery fee: + {delivery_charge}')
+    print(f'___________________________________')
     print(f'Thank you for your order! Your total is ${order_sum:.2f}')
+    
 
 
 # Program begins here :           
