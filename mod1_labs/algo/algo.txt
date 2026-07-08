@@ -47,7 +47,7 @@ Present user with menu options [CREATE GOAL, UPDATE GOAL]
     if UPDATE GOAL run update_saving_progress function
     else ask for a valid input
 
-    using USER_ID, retrive goals
+    using USER_ID, retrieve goals
     run the saving_goal_notification on each goal to see if anything is due soon
 
 
@@ -69,7 +69,7 @@ Function create_saving_goal(USER_ID) | output: stores dictionary with GOAL_NAME 
     GOAL_NAME : {TARGET_DATE, TARGET_AMOUNT, AMOUNT_SAVED: 0} <-- amount saved defaults to 0 when first created
     store goal dictionary under USERS[USER_ID][GOAL_NAME]
 
-    notify user change was sucessful
+    notify user change was successful
     Return to menu
 
 
@@ -81,7 +81,7 @@ Function update_saving_progress(USER_ID, GOAL_NAME) | updated AMOUNT_SAVED in US
                     and break loop
                 else loop until valid
 
-    notify user change was sucessful
+    notify user change was successful
     Return to menu
         
 
