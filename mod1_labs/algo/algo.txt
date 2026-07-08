@@ -42,7 +42,7 @@ MAIN FUNCTIONALITY:
 
 Retrieve USER_ID from login_user function
 
-Present user with a menu optins [CREATE GOAL, UPDATE GOAL]
+Present user with menu options [CREATE GOAL, UPDATE GOAL]
     if CREATE GOAL run create create_saving_goal function
     if UPDATE GOAL run update_saving_progress function
     else ask for a valid input
