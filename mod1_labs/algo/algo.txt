@@ -41,8 +41,16 @@ Function date_is_valid(DATE) output:BOOL
 
 Retrieve USER_ID from login_user function
 
+Present user with a menu optins [CREATE GOAL, UPDATE GOAL]
+    if CREATE GOAL run create create_saving_goal function
+    if UPDATE GOAL run update_saving_progress function
+    else ask for a valid input
 
-Function create_saving_goal(USER_ID) | output: a dictionary with GOAL_NAME as the key and TARGET_DATE, TARGET_AMOUNT, and AMOUNT_SAVED as values
+    using USER_ID, retrive goals
+    run the saving_goal_notification on each goal to see if anything is due soon
+
+
+Function create_saving_goal(USER_ID) | output: stores dictionary with GOAL_NAME as the key and TARGET_DATE, TARGET_AMOUNT, and AMOUNT_SAVED as values
     loop until valid entry
         prompt user for a GOAL_NAME
             ensure the goal name does not already exist in the USERS database, and is not empty
@@ -57,22 +65,23 @@ Function create_saving_goal(USER_ID) | output: a dictionary with GOAL_NAME as th
             if valid input, store value to TARGET_DATE variable and break loop
             else loop until valid
     create a goal dictionary
-        GOAL_NAME : {TARGET_DATE, TARGET_AMOUNT, AMOUNT_SAVED: 0} <-- amount saved defaults to 0 when first created
-    return goal dictionary
+    GOAL_NAME : {TARGET_DATE, TARGET_AMOUNT, AMOUNT_SAVED: 0} <-- amount saved defaults to 0 when first created
+    store goal dictionary under USERS[USER_ID][GOAL_NAME]
+
+    notify user change was sucessful
+    Return to menu
 
 
-store goal dictionary under USERS[USER_ID][GOAL_NAME]
-
-
-Function update_saving_progress(USER_ID, GOAL_NAME) | updated goal dictionary
-    Retrieve the AMOUNT_SAVED from the database USER_ID and GOAL_NAME
+Function update_saving_progress(USER_ID, GOAL_NAME) | updated AMOUNT_SAVED in USER database
+    Retrieve the AMOUNT_SAVED from the database with USER_ID and GOAL_NAME
     loop until valid entry
         prompt user for AMOUNT_TO_ADD and validate using amount_is_valid function
                 if valid update AMOUNT_SAVED by adding AMOUNT_TO_ADD
                     and break loop
                 else loop until valid
 
-
+    notify user change was sucessful
+    Return to menu
         
 
 Function saving_goal_notification(USER_ID, GOAL_NAME) 
@@ -84,7 +93,7 @@ Function saving_goal_notification(USER_ID, GOAL_NAME)
     create a days_left variable from the target_date - datetime.date.today()
     create a goal_is_met = AMOUNT_SAVED >= TARGET_AMOUNT
 
-    if days_left < x amount of days and goal_is_met is False
+    if days_left < x amount of days and goal_is_met is False. 
         return a warning formatted string
     else 
         return nothing
