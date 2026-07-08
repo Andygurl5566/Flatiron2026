@@ -19,7 +19,6 @@ USERS = {
 
 HELPER FUNCTIONS:
 
-
 USER_LOGIN HELPER FUNCTION
 Function login_user() output: USER_ID
     loop until valid entry
@@ -38,6 +37,8 @@ Function date_is_valid(DATE) output:BOOL
     if DATE can be a datetime value return True
     else return False
 
+
+MAIN FUNCTIONALITY:
 
 Retrieve USER_ID from login_user function
 
