@@ -1,289 +1,90 @@
-create empty user session | dict
-create user database | dict
-    USERS = {
-        user1:{
-            id:'',
-            saving_goal:''....
+This system should be able to:
+- set new savings goals based on specific users 
+- set dates to achieve said goals
+- update the savings progress toward the goals
+- notify the user when a goal date is approaching and the savings has not been met
+
+Create an empty dict for USERS database. It will look like this:
+
+USERS = {
+        USER_ID:{
+            GOAL_NAME:{
+                TARGET_DATE
+                TARGET_AMOUNT
+                AMOUNT_SAVED
+            }
         }
     }
 
 
-FUCNCTION 1 USER_LOGIN
-This function will attempt to log a user in. If the user_id exists the user will be logged in and their id will be saved to the user session.
-Else the user will be prompted to create a new id. After successful creation their user id will be saved to the user_session, and the new user will be added to the USER database
-
-Inputs: 
-user_id | int
-
-Outputs:
-updated user session | dict
+HELPER FUNCTIONS:
 
 
-create log_in_user function
-prompt user for user_id
-While the user enters the id
-    check that the user id is an integer using an int check | int(user_input)
-        if true, break out of loop
-        if false ask the user to enter a valid input
-    While ...  
-        check that the id exists in the USER database with an if in statement | if x in dict
-            if id exists, save user_id to user_session | key:active_user, value: user_id
-                exit out of loop
-            if id does not exist,
-                - tell user the id does not exist
-                - give user a yes or no option to create a user_id
-                    validate yes or no response by ensure the input is a string and convert to lowercase | str(),  .strip().lower()
-                        if yes prompt user to enter a user_id as a digit
-                            validate response by ensuring user input is a digit
-                            if valid 
-                                udate USER database with new id | USERS[user_id] = {}
-                                save user_id to user_session | key:active_user, value: user_id
-                                exit out of loop
-                            if not valid loop until user enters a valid input
-                        if no break out of loop and ask user for a valid id
-                        if invalid, stay in loop until user inputs a yes or no response
+USER_LOGIN HELPER FUNCTION
+Function login_user() output: USER_ID
+    loop until valid entry
+    prompt user for USER_ID
+        ensure the USER_ID exists in the system by checking the USERS database
+            if the USER_ID exists, break loop
+            else prompt user to create an id or try to enter their id again
+    return the USER_ID
 
-______________________
+Function amount_is_valid(AMOUNT) output: BOOL
+    if AMOUNT cannot be converted to a float return False
+    if AMOUNT <= 0 return False
+    else return True
 
-FUNCTION 2 CREATE_SAVING_GOAL (saving goal)
-Inputs: 
-user_id | int <-- retreived from user_session
-target_amount | float
-target_date | date.date_time (from datetime import datetime)
-
-Outputs:
-updated user session | dict
-update USER database USER[userid][saving_goal]='' | dict
-
-Create 'create_saving_goal' function
-prompt user for goal_name 
-    While...
-        try to
-            ensure entry is not blank
-            ensure goal name is unique | using if x in database
-        if valid 
-            add goal name to USER database | USER[user_id]["goal_name"] = goal_name
-            add goal name to user_session | user_session["current_goal"] = goal_name
-            exit loop
-        if invalid
-            Let user know input is invalid | Print statement
-            continue loop until valid info is given
-    
-prompt user for target_amount
-    While ...
-        try to 
-            ensure input can be a float with float check | float()
-        if valid
-            add target_amount to user database | USER[user_id][current_goal]["target_amount"] = target_amount
-            exit loop
-        if invalid
-            Let user know input is invalid | Print statement
-            continue loop until valid info is given
-
-prompt user for target_date in (YYYY-MM-DD) format
-    While ...
-        try to 
-            ensure input can be a datetime input | datetime.strptime(target_date, "%Y-%m-%d").date()
-        if valid
-            ensure date is not in past
-                if valid  
-                    add target_date to USER database | USER[user_id][current_goal]["target_date"] = target_date
-                    exit loop
-                if not valid loop until valid entry
-        if invalid
-            Let user know input is invalid | Print statement
-            continue loop until valid info is given
-
-______________________
-
-FUNCTION 3 UPDATE_SAVING_PROGRESS (saving progress)
-
-Inputs:
-    user_id | int <-- retreived from user_session
-    goal_name | string
+Function date_is_valid(DATE) output:BOOL
+    if DATE can be a datetime value return True
+    else return False
 
 
-Outputs:
-    update USER database
-
-Create the update_saving_progress function with a user id and parameter
-prompt user for amount_saved
-    While ...
-        try to ensure input can be a float with float check | float()
-            if valid
-                exit loop
-            if invalid
-                Let user know input is invalid | Print statement
-                continue loop until valid info is given
-grab the saving_goal from the USER database using the goal_name | USERS[user_id][goal_name][saving_goal]
-subtract the amount_saved from the saving goal
-
-______________________
+Retrieve USER_ID from login_user function
 
 
-FUNCTION 4 SAVING_GOAL_NOTIFACTION (saving progress)
-Inputs: 
-    saving_goal_name 
-    user_id 
-
-Outputs:
-    Interpelated string 
-
-import date_time | from datetime import datetime, date
-create saving_goal_notification function
-    capture the current date | now = datetime.now()
-    capture the target_date using the user_id and saving_goal_name | USERS[user_id][goal_name][target_date]
-    subtract datetime.date.today() from the target_date
-    return an interpolated string that tells the user how many days they have left 
-
-
-
-
-
-_SPELLING CORRECTED: ______________________________________________________________
-
-create empty user session | dict
-create user database | dict
-    USERS = {
-        user1:{
-            id:'',
-            saving_goal:''....
-        }
-    }
+Function create_saving_goal(USER_ID) | output: a dictionary with GOAL_NAME as the key and TARGET_DATE, TARGET_AMOUNT, and AMOUNT_SAVED as values
+    loop until valid entry
+        prompt user for a GOAL_NAME
+            ensure the goal name does not already exist in the USERS database, and is not empty
+            if the goal name is valid, store the value in GOAL_NAME variable and break loop
+            else loop until valid
+    loop until valid entry
+        prompt user for a TARGET_AMOUNT and validate using amount_is_valid function
+            if valid store to TARGET_AMOUNT variable and break loop
+            else loop until valid
+    loop until valid entry
+        prompt user for a TARGET_DATE in YYYY-MM-DD format and validate date with date_is_valid helper function
+            if valid input, store value to TARGET_DATE variable and break loop
+            else loop until valid
+    create a goal dictionary
+        GOAL_NAME : {TARGET_DATE, TARGET_AMOUNT, AMOUNT_SAVED: 0} <-- amount saved defaults to 0 when first created
+    return goal dictionary
 
 
-FUNCTION 1 USER_LOGIN
-This function will attempt to log a user in. If the user_id exists the user will be logged in and their id will be saved to the user session.
-Else the user will be prompted to create a new id. After successful creation their user id will be saved to the user_session, and the new user will be added to the USER database
-
-Inputs: 
-user_id | int
-
-Outputs:
-updated user session | dict
+store goal dictionary under USERS[USER_ID][GOAL_NAME]
 
 
-create log_in_user function
-prompt user for user_id
-While the user enters the id
-    check that the user id is an integer using an int check | int(user_input)
-        if true, break out of loop
-        if false ask the user to enter a valid input
-    While ...  
-        check that the id exists in the USER database with an if in statement | if x in dict
-            if id exists, save user_id to user_session | key:active_user, value: user_id
-                exit out of loop
-            if id does not exist,
-                - tell user the id does not exist
-                - give user a yes or no option to create a user_id
-                    validate yes or no response by ensure the input is a string and convert to lowercase | str(),  .strip().lower()
-                        if yes prompt user to enter a user_id as a digit
-                            validate response by ensuring user input is a digit
-                            if valid 
-                                update USER database with new id | USERS[user_id] = {}
-                                save user_id to user_session | key:active_user, value: user_id
-                                exit out of loop
-                            if not valid loop until user enters a valid input
-                        if no break out of loop and ask user for a valid id
-                        if invalid, stay in loop until user inputs a yes or no response
-
-______________________
-
-FUNCTION 2 CREATE_SAVING_GOAL (saving goal)
-
-Inputs: 
-user_id | int <-- retrieved from user_session
-target_amount | float
-target_date | date.date_time (from datetime import datetime)
-
-Outputs:
-updated user session | dict
-update USER database USER[userid][saving_goal]='' | dict
-
-Create 'create_saving_goal' function
-prompt user for goal_name 
-    While...
-        try to
-            ensure entry is not blank
-            ensure goal name is unique | using if x in database
-        if valid 
-            add goal name to USER database | USER[user_id]["goal_name"] = goal_name
-            add goal name to user_session | user_session["current_goal"] = goal_name
-            exit loop
-        if invalid
-            Let user know input is invalid | Print statement
-            continue loop until valid info is given
-    
-prompt user for target_amount
-    While ...
-        try to 
-            ensure input can be a float with float check | float()
-        if valid
-            add target_amount to user database | USER[user_id][current_goal]["target_amount"] = target_amount
-            exit loop
-        if invalid
-            Let user know input is invalid | Print statement
-            continue loop until valid info is given
-
-prompt user for target_date in (YYYY-MM-DD) format
-    While ...
-        try to 
-            ensure input can be a datetime input | datetime.strptime(target_date, "%Y-%m-%d").date()
-        if valid
-            ensure date is not in past
-                if valid  
-                    add target_date to USER database | USER[user_id][current_goal]["target_date"] = target_date
-                    exit loop
-                if not valid loop until valid entry
-        if invalid
-            Let user know input is invalid | Print statement
-            continue loop until valid info is given
-
-______________________
-
-FUNCTION 3 UPDATE_SAVING_PROGRESS (saving progress)
-
-Inputs:
-    user_id | int <-- retrieved from user_session
-    goal_name | string
+Function update_saving_progress(USER_ID, GOAL_NAME) | updated goal dictionary
+    Retrieve the AMOUNT_SAVED from the database USER_ID and GOAL_NAME
+    loop until valid entry
+        prompt user for AMOUNT_TO_ADD and validate using amount_is_valid function
+                if valid update AMOUNT_SAVED by adding AMOUNT_TO_ADD
+                    and break loop
+                else loop until valid
 
 
-Outputs:
-    update USER database
+        
 
-Create the update_saving_progress function with a user id and parameter
-prompt user for amount_saved
-    While ...
-        try to ensure input can be a float with float check | float()
-            if valid
-                exit loop
-            if invalid
-                Let user know input is invalid | Print statement
-                continue loop until valid info is given
-grab the saving_goal from the USER database using the goal_name | USERS[user_id][goal_name][saving_goal]
-subtract the amount_saved from the saving goal
+Function saving_goal_notification(USER_ID, GOAL_NAME) 
+    import datetime 
+    capture the current date
 
-______________________
+    retrieve the TARGET_DATE and TARGET_AMOUNT, AMOUNT_SAVED using the USER_ID and GOAL_NAME
 
+    create a days_left variable from the target_date - datetime.date.today()
+    create a goal_is_met = AMOUNT_SAVED >= TARGET_AMOUNT
 
-FUNCTION 4 SAVING_GOAL_NOTIFICATION (saving progress)
-Inputs: 
-    saving_goal_name 
-    user_id 
-
-Outputs:
-    Interpolated string 
-
-import date_time | from datetime import datetime, date
-create saving_goal_notification function
-    capture the current date | now = datetime.now()
-    capture the target_date using the user_id and saving_goal_name | USERS[user_id][goal_name][target_date]
-    subtract datetime.date.today() from the target_date
-    return an interpolated string that tells the user how many days they have left
-
-
-
-
-
-
-
+    if days_left < x amount of days and goal_is_met is False
+        return a warning formatted string
+    else 
+        return nothing
