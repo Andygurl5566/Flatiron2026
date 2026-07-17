@@ -47,7 +47,7 @@ def gather_order_details():
         number_of_toppings_input = input("How many toppings would you like to add? : ")
         try:
             number_of_toppings = int(number_of_toppings_input)
-            if number_of_toppings > 0:
+            if number_of_toppings >= 0:
                 topping_charge = number_of_toppings * TOPPING_FEE
                 break
             else:
@@ -57,7 +57,7 @@ def gather_order_details():
     while True:
         delivery_distance_input = input("Please enter the distance to your address in miles : ")
         try:
-            distance_input = int(delivery_distance_input)
+            distance_input = float(delivery_distance_input)
             if distance_input > 0:
                 delivery_fee = calculate_delivery_fee(distance_input)
                 break
